@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+int main(){
+	int n;
+	cout<<"n=?";
+	cin>>n;
+	int **v=new int*[n];
+	for(int i = 0; i < n; i++) {
+    		v[i] = new int[n];
+    }
+     int **c=new int*[n];
+	 for(int i = 0; i < n; i++) {
+    		c[i] = new int[n];
+    }
+	int **drum=new int*[n];
+	 for(int i = 0; i < n; i++) {
+    		drum[i] = new int[n];
+			}
+	for (int i=0;i<n;i++){
+		for (int j=0;j<n;j++){
+			drum[i][j]=0;
+	}
+		}
+		//citire date
+	for (int i=0;i<n;i++)
+		for (int j=0;j<n;j++){
+			cout<<"v["<<i<<"]["<<j<<"]=?";
+			cin>>v[i][j];
+			c[i][j]=v[i][j];
+	}
+	
+	int max=0;
+	int *v2=new int[n];
+	for (int i=0;i<n;i++){
+		v2[i]=0; }
+	for (int i=0;i<n-1;i++){
+		for (int j=0;j<n;j++){
+			//stg
+			if (j-1>=0){
+				if ((c[i+1][j-1]<=c[i][j]+v[i+1][j-1])&&(v[i+1][j-1]==1)){
+							c[i+1][j-1]=c[i][j]+v[i+1][j-1];
+							drum[i+1][j-1]=j;
+							}
+			}
+			//centru
+			if (v[i+1][j]==0){
+				c[i+1][j]=c[i][j];
+				drum[i+1][j]=j;
+			}
+			//dr
+			if (j+1<=n-1){
+					if ((c[i+1][j+1]<=c[i][j]+v[i+1][j+1])&&(v[i+1][j+1]==1)){
+							c[i+1][j+1]=c[i][j]+v[i+1][j+1];
+						drum[i+1][j+1]=j;
+
+				}
+			}
+			
+		}
+	}
+	//for (int i=0;i<n;i++){
+	//for (int j=0;j<n;j++){
+	//	cout<<c[i][j]<<" ";
+//	} cout<<"\n";}
+
+	int max1=0;
+	int p=0;
+	for (int i=0;i<n;i++){
+		if (max1<c[n-1][i]){
+			max1=c[n-1][i];
+			p=i;
+		}
+	}
+	int p2=p;
+	for (int i=n-1;i>0;i--){
+		v2[i]=drum[i][p];
+ 		p=drum[i][p];
+	}
+	//afisare
+	for (int i=1;i<n;i++){
+		cout<<"("<<i<<","<<v2[i]+1<<"); ";
+	}
+	cout<<"("<<n<<","<<p2+1<<"); ";
+	cout<<"\n cu "<<max1<<" piese";
+}
